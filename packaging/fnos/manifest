@@ -1,0 +1,14 @@
+appname               = blueport
+version               = 0.1.0
+display_name          = Blueport 导航
+desc                  = 极简蓝白服务导航，YAML 配置、拼音搜索、内外网自动选址，无 Docker 依赖。
+platform              = x86
+source                = thirdparty
+maintainer            = Blueport
+distributor           = Blueport
+desktop_uidir         = ui
+desktop_applaunchname = blueport.Application
+service_port          = 18787
+checkport             = true
+ctl_stop              = true
+disable_authorization_path = true

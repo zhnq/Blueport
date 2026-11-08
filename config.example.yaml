@@ -1,0 +1,57 @@
+# AI maintenance: edit this file, validate with blueport -check -config PATH.
+# Copy to data/config.yaml for local use. On fnOS use /var/apps/blueport/var/config.yaml.
+version: 1
+title: 导航
+subtitle: YOUR SERVICES, ONE PORT.
+network:
+  # Your NAS's fixed private IP and the Blueport listening port.
+  # Keep empty until configured. The UI then defaults to public links.
+  probe_url: ""
+  probe_id: blueport-home
+  allowed_origins: [] # e.g. ["https://nav.example.com"] for cross-origin LAN probes
+  timeout_ms: 1400
+categories:
+  - id: home
+    name: 家庭服务
+  - id: media
+    name: 媒体与下载
+  - id: tools
+    name: 常用工具
+services:
+  # Example addresses only. Replace with your actual services before use.
+  - id: nas
+    name: 飞牛 NAS
+    description: 家庭数据中心 · 请替换示例内网地址
+    category: home
+    icon: server
+    internal_url: http://192.168.1.10:5666
+  - id: router
+    name: 路由器
+    description: 网络设置 · 请替换示例内网地址
+    category: home
+    icon: network
+    internal_url: http://192.168.1.1
+  - id: jellyfin
+    name: Jellyfin
+    description: 电影与音乐 · 请替换示例内网地址
+    category: media
+    icon: play
+    internal_url: http://192.168.1.10:8096
+  - id: downloads
+    name: 下载中心
+    description: 下载任务 · 请替换示例内网地址
+    category: media
+    icon: download
+    internal_url: http://192.168.1.10:8080
+  - id: github
+    name: GitHub
+    description: 代码与开源项目
+    category: tools
+    icon: code
+    public_url: https://github.com
+  - id: bing
+    name: Bing
+    description: 网页搜索
+    category: tools
+    icon: globe
+    public_url: https://www.bing.com

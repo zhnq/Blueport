@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fdfdfe">
+  <meta name="description" content="Blueport · 轻量的个人服务导航">
+  <title>导航 · Blueport</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#services">跳转到服务</a>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Blueport 首页">
+        <span class="logo-frame" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="m20 5 14 8v16l-14 8-14-8V13Z M6 13l14 8 14-8 M20 21v16 M13 9l14 8v8l-7 4"/></svg></span>
+        <span class="brand-text"><strong>BLUEPORT<span class="brand-slash"> / </span><span id="title">导航</span></strong><small id="subtitle">YOUR SERVICES, ONE PORT.</small></span>
+      </a>
+      <div class="topbar-tools">
+        <button id="search-open" class="search-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>搜索服务…</span><kbd>Ctrl K</kbd></button>
+        <span class="toolbar-separator" aria-hidden="true"></span>
+        <button id="network-open" class="network-button" type="button" aria-haspopup="dialog"><span class="status-dot" id="network-dot"></span><span id="network-label">公网优先</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
+      </div>
+    </header>
+
+    <main class="panel" id="main">
+      <div class="panel-head"><div><p class="eyebrow">PERSONAL SERVICE DIRECTORY</p><h1>服务入口<span class="heading-period">.</span></h1></div><div class="directory-summary"><span id="service-total">00</span><span>个服务</span></div></div>
+      <nav id="categories" class="tabs" aria-label="服务分类"></nav>
+      <div class="section-bar"><span id="section-label">全部服务</span><span class="section-note">SELECT A DESTINATION <span aria-hidden="true">↗</span></span></div>
+      <div id="services" class="services" tabindex="-1" aria-label="服务列表"><p class="empty">正在读取配置…</p></div>
+      <footer class="panel-footer"><span class="footer-state"><i aria-hidden="true"></i><span id="footer-status">本地配置 · 按需检测网络</span></span><span class="footer-brand">BLUEPORT <span>/</span> 01</span></footer>
+    </main>
+    <div class="under-panel"><span>一个入口，直达所需。</span><button id="search-hint" type="button">按 <kbd>/</kbd> 搜索 <span aria-hidden="true">·</span> <kbd>↑</kbd> <kbd>↓</kbd> 选择 <kbd>↵</kbd> 打开</button></div>
+  </div>
+
+  <dialog id="search-dialog" class="dialog palette" aria-label="搜索服务">
+    <form method="dialog" class="palette-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search-input" type="search" placeholder="搜索名称、分类或拼音…" autocomplete="off" spellcheck="false" aria-label="搜索服务" role="combobox" aria-autocomplete="list" aria-controls="search-results" aria-expanded="true"><button class="escape" aria-label="关闭搜索">Esc</button></form>
+    <div id="search-results" class="palette-list" role="listbox" aria-label="搜索结果"></div>
+    <footer class="palette-footer"><span><kbd>↑</kbd> <kbd>↓</kbd> 选择</span><span><kbd>↵</kbd> 打开服务</span><span id="result-count"></span></footer>
+  </dialog>
+
+  <dialog id="network-dialog" class="dialog network-dialog" aria-labelledby="network-title">
+    <div class="dialog-head"><h2 id="network-title">访问方式</h2><form method="dialog"><button class="close-button" aria-label="关闭网络设置">×</button></form></div>
+    <p class="network-help">自动模式优先公网，确认家庭内网可达后使用内网地址。</p>
+    <div class="network-options" role="group" aria-label="选择访问方式"><button type="button" data-mode="auto">自动检测</button><button type="button" data-mode="lan">使用内网</button><button type="button" data-mode="wan">使用公网</button></div>
+    <p id="network-detail" class="network-detail" role="status">尚未检测</p>
+    <div class="network-bottom"><span>选择仅保存在当前浏览器。</span><button id="probe-retry" class="outline-button" type="button">重新检测 ↻</button></div>
+  </dialog>
+  <div class="sr-only" role="status" aria-live="polite" id="announcement"></div>
+  <noscript><p class="noscript">请启用 JavaScript 以使用搜索和内外网自动选址。</p></noscript>
+</body>
+</html>

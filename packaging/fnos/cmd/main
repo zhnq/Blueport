@@ -1,0 +1,44 @@
+#!/bin/bash
+set -eu
+umask 077
+: "${TRIM_APPDEST:?missing application path}"
+: "${TRIM_PKGVAR:?missing data path}"
+PID_FILE="${TRIM_PKGVAR}/blueport.pid"
+BIN="${TRIM_APPDEST}/server/blueport"
+CONFIG="${TRIM_PKGVAR}/config.yaml"
+LOG="${TRIM_PKGVAR}/blueport.log"
+running() {
+    [ -r "$PID_FILE" ] || return 1
+    read -r app_pid < "$PID_FILE" || return 1
+    case "$app_pid" in ''|*[!0-9]*) return 1;; esac
+    [ "$(readlink -f "/proc/$app_pid/exe" 2>/dev/null)" = "$(readlink -f "$BIN")" ] || return 1
+    kill -0 "$app_pid" 2>/dev/null
+}
+case "${1:-}" in
+start)
+    if running; then exit 0; fi
+    mkdir -p "$TRIM_PKGVAR"
+    if [ ! -f "$CONFIG" ]; then cp "${TRIM_APPDEST}/config.example.yaml" "$CONFIG"; fi
+    "$BIN" -check -config "$CONFIG" >> "$LOG" 2>&1 || exit 1
+    if [ -f "$LOG" ] && [ "$(wc -c < "$LOG")" -gt 1048576 ]; then mv "$LOG" "$LOG.1"; fi
+    nohup "$BIN" -listen "0.0.0.0:18787" -config "$CONFIG" >> "$LOG" 2>&1 < /dev/null &
+    printf '%s\n' "$!" > "$PID_FILE"
+    sleep 1
+    running || exit 1
+    ;;
+stop)
+    if running; then
+        kill -TERM "$app_pid"
+        for attempt in $(seq 1 7); do
+            running || break
+            sleep 1
+        done
+        if running; then kill -KILL "$app_pid"; fi
+    fi
+    rm -f "$PID_FILE"
+    ;;
+status)
+    if running; then exit 0; else exit 3; fi
+    ;;
+*) exit 1;;
+esac

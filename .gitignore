@@ -1,0 +1,8 @@
+/dist/
+/.tools/
+/data/
+*.fpk
+*.exe
+*.log
+.DS_Store
+/node_modules/
