@@ -7,6 +7,7 @@ Python、Docker 或数据库。蓝白视觉参考 [Protocol Explorer](https://pr
 
 更适合新标签页的独立浏览器扩展版已经提供：本地显示，无服务器和后台进程，支持
 Chrome / Edge。生成、权限和安装方式见 [docs/extension.md](docs/extension.md)。
+扩展支持手动检查 GitHub 新版；解压版下载后使用包内工具保留配置更新，再重新加载。
 
 需要 Go 1.25+：
 
@@ -92,6 +93,7 @@ go vet ./...
 node --check web/app.js
 npm ci --ignore-scripts
 npm test
+python scripts/test_update_extension.py
 python scripts/verify.py
 # Linux/WSL：解包到临时目录，模拟生命周期并测量资源，不安装到 NAS
 python3 scripts/linux_verify.py dist/blueport-0.1.0-amd64.fpk

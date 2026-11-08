@@ -123,7 +123,7 @@
     if(matches.length)input.setAttribute('aria-activedescendant',`result-${active}`);else input.removeAttribute('aria-activedescendant');
   }
   function openService(s){const a=el('a');a.href=safeURL(s);a.target='_blank';a.rel='noopener noreferrer';document.body.append(a);a.click();a.remove();searchDialog.close();}
-  function showSearch(){if(!config||networkDialog.open||searchDialog.open)return;returnFocus=document.activeElement;input.value='';active=0;renderResults();searchDialog.showModal();input.focus();}
+  function showSearch(){if(!config||document.querySelector('dialog[open]'))return;returnFocus=document.activeElement;input.value='';active=0;renderResults();searchDialog.showModal();input.focus();}
   input.addEventListener('input',()=>{active=0;renderResults();});
   input.addEventListener('keydown',e=>{
     if(e.key==='Enter'){e.preventDefault();if(matches[active])openService(matches[active]);}

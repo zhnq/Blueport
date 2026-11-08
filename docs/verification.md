@@ -74,3 +74,22 @@ SSE quiet connections may be dropped by proxies; EventSource reconnects on error
   tested in a real browser profile; nothing was installed and no permission granted.
 - Standalone extension YAML updates require rebuilding and reloading the extension;
   it does not claim arbitrary disk file watching from the browser sandbox.
+
+## Manual extension updates · 2026-11-09
+
+- Extension 0.1.1 adds an explicit GitHub Release check; no automatic update requests.
+- Release text uses textContent; download links are restricted to the project's
+  release path and expected extension asset name. Numeric stable-version comparison.
+- Thirteen DOM tests pass: original behaviors plus update idle/no-request state,
+  version comparison, release text escaping, asset URL validation, no-release,
+  HTTP error/rate-limit/offline recovery, duplicate clicks and request cancellation.
+- Five local update tests cover byte-for-byte configuration preservation, NAS
+  permission/CSP recovery, complete backup, no-probe permissions, invalid input,
+  downgrade/path rejection and simulated replacement failure rollback.
+- Real installed-extension update and browser reload remain pending. This feature
+  does not claim browser-managed installation of GitHub ZIP files.
+
+- Generated public 0.1.0 and 0.1.1 ZIPs were unpacked in a temporary directory;
+  the upgrade preserved config.js exactly. Public API CORS response is `*`.
+- Current web HTTP first-load bodies total 164,558 bytes (example configuration);
+  the extension update script is not loaded by the web/FPK page.

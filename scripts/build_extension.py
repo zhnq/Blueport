@@ -30,7 +30,7 @@ def main():
         config['network']['probe_url']=args.probe_url
         config['network']['probe_contains']=args.probe_contains
     probe=config['network']['probe_url']
-    permissions=[];connect="'self'"
+    permissions=[];connect="'self' https://api.github.com"
     if probe:
         url=urlsplit(probe)
         if url.scheme not in ('http','https') or url.username or url.password or url.fragment:
@@ -43,7 +43,7 @@ def main():
         permissions=[f'{url.scheme}://{host}/*']
         connect+=f' {url.scheme}://{url.netloc}'
     manifest={
-        'manifest_version':3,'name':'Blueport · 导航','version':'0.1.0',
+        'manifest_version':3,'name':'Blueport · 导航','version':(ROOT/'EXTENSION_VERSION').read_text().strip(),
         'description':'紧凑、本地优先的 NAS 新标签页，支持拼音搜索和内外网选址。',
         'chrome_url_overrides':{'newtab':'index.html'},
         'icons':{'64':'icons/icon_64.png','256':'icons/icon_256.png'},
@@ -59,7 +59,7 @@ def main():
         out.rename(dist/f'blueport-extension-backup-{time.time_ns()}')
     shutil.copytree(ROOT/'web',out)
     html=(out/'index.html').read_text(encoding='utf-8')
-    html=html.replace('<script defer src="/app.js"></script>','<script defer src="/config.js"></script>\n  <script defer src="/app.js"></script>')
+    html=html.replace('<script defer src="/app.js"></script>','<script defer src="/config.js"></script>\n  <script defer src="/app.js"></script>\n  <script defer src="/update.js"></script>')
     html=html.replace('href="/" aria-label="Blueport 首页"','href="index.html" aria-label="Blueport 首页"')
     (out/'index.html').write_text(html,encoding='utf-8',newline='\n')
     (out/'config.js').write_text('"use strict";\nwindow.BLUEPORT_CONFIG = '+json.dumps(config,ensure_ascii=False,separators=(',',':'))+';\n',encoding='utf-8',newline='\n')
@@ -67,6 +67,7 @@ def main():
     shutil.copytree(ROOT/'packaging/fnos/app/ui/images',out/'icons',ignore=shutil.ignore_patterns('.DS_Store'))
     shutil.copytree(ROOT/'docs/licenses',out/'licenses')
     shutil.copy2(ROOT/'LICENSE',out/'licenses/blueport.txt')
+    shutil.copy2(ROOT/'scripts/update_extension.py',out/'update.py')
     archive=dist/'blueport-extension.zip'
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
         for file in sorted(out.rglob('*')):
